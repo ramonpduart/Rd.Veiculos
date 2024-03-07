@@ -1,0 +1,11 @@
+{
+  "AppSettings": {
+
+    //Variaveis Api
+    "API_BASE_URL": "https://localhost:7099/rd-veiculos-api/",
+
+    //Variaveis Base de Dados
+    "SQL_SERVER_CONNECTION_STRING": "Data Source=(localdb)\\MSSQLLocalDB;Initial Catalog=testes-integrados;Integrated Security=True;Persist Security Info=False;Pooling=False;Multiple Active Result Sets=False;Encrypt=False;Trust Server Certificate=False;Command Timeout=0",
+
+  }
+}

@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rd.Veiculos.Api", "Rd.Veiculos.Api\Rd.Veiculos.Api.csproj", "{4AF44D0A-7BCA-4E11-BFEC-18EDB340D43D}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rd.Veiculos.Api", "Rd.Veiculos.Api\Rd.Veiculos.Api.csproj", "{4AF44D0A-7BCA-4E11-BFEC-18EDB340D43D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Rd.Veiculos.Tests.Unit", "Rd.Veiculos.Tests.Unit\Rd.Veiculos.Tests.Unit.csproj", "{8AA5AE1F-9B62-45BA-A2EE-CEDCFD5760F5}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Rd.Veiculos.Tests.Unit", "Rd.Veiculos.Tests.Unit\Rd.Veiculos.Tests.Unit.csproj", "{8AA5AE1F-9B62-45BA-A2EE-CEDCFD5760F5}"
 	ProjectSection(ProjectDependencies) = postProject
 		{4AF44D0A-7BCA-4E11-BFEC-18EDB340D43D} = {4AF44D0A-7BCA-4E11-BFEC-18EDB340D43D}
 	EndProjectSection

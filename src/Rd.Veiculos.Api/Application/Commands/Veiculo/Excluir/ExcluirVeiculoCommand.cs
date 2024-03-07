@@ -8,5 +8,10 @@ namespace Rd.Veiculos.Api.Application.Commands.Veiculo.Excluir
     {
         [Required]
         public Guid Id { get; set; }
+
+        public ExcluirVeiculoCommand(Guid id)
+        {
+            Id = id;
+        }
     }
 }

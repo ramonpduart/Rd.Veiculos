@@ -1,10 +1,12 @@
 ﻿using MediatR;
 using System.ComponentModel.DataAnnotations;
+using System.Text.Json.Serialization;
 
 namespace Rd.Veiculos.Api.Application.Commands.Veiculo.Alterar
 {
     public class AlterarVeiculoCommand : IRequest<bool>
     {
+        [JsonIgnore]
         [Required]
         public Guid Id { get; set; }
 

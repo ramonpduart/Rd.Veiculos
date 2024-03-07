@@ -36,31 +36,33 @@ namespace Rd.Veiculos.Api.Controllers.v1
             return Created("Id", new { veiculo.Id });
         }
 
-        [HttpPut]
+        [HttpPut("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> Alterar(
+            [FromRoute] Guid id,
             [FromBody] AlterarVeiculoCommand command,
             CancellationToken cancellationToken
         )
         {
             _logger.LogInformation($"Alterando veículo - {command.Marca} {command.Modelo}");
+            command.Id = id;
             var result = await _mediator.Send(command, cancellationToken);
             _logger.LogInformation($"Veículo alterado - {command.Marca} {command.Modelo} - Sucess: {result}");
             return Ok();
         }
 
-        [HttpDelete]
+        [HttpDelete("{id}")]
         [ProducesResponseType((int)HttpStatusCode.OK)]
         [ProducesResponseType((int)HttpStatusCode.BadRequest)]
         public async Task<ActionResult> Excluir(
-            [FromBody] ExcluirVeiculoCommand command,
+            [FromRoute] Guid id,
             CancellationToken cancellationToken
         )
         {
-            _logger.LogInformation($"Excluindo veículo - {command.Id}");
-            var result = await _mediator.Send(command, cancellationToken);
-            _logger.LogInformation($"Veículo excluido - {command.Id} - Sucess: {result}");
+            _logger.LogInformation($"Excluindo veículo - {id}");
+            var result = await _mediator.Send(new ExcluirVeiculoCommand(id), cancellationToken);
+            _logger.LogInformation($"Veículo excluido - {id} - Sucess: {result}");
             return Ok();
         }
 
