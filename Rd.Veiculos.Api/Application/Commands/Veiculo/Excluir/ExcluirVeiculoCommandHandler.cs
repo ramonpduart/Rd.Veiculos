@@ -1,5 +1,6 @@
 ﻿using MediatR;
 using Rd.Veiculos.Api.Core.Repositories;
+using System.ComponentModel.DataAnnotations;
 
 namespace Rd.Veiculos.Api.Application.Commands.Veiculo.Excluir
 {
@@ -14,7 +15,7 @@ namespace Rd.Veiculos.Api.Application.Commands.Veiculo.Excluir
 
         public async Task<bool> Handle(ExcluirVeiculoCommand command, CancellationToken cancellationToken)
         {
-            var veiculoEntity = await _veiculoRepository.ObterPorId(command.Id, cancellationToken) ?? throw new ArgumentNullException("Veículo não encontrado");
+            var veiculoEntity = await _veiculoRepository.ObterPorId(command.Id, cancellationToken) ?? throw new ValidationException("Veículo não encontrado");
             veiculoEntity.Excluir();
             await _veiculoRepository.Excluir(veiculoEntity, cancellationToken);
             return true;

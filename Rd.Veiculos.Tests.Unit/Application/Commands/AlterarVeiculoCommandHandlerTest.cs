@@ -1,0 +1,73 @@
+﻿using Moq;
+using Rd.Veiculos.Api.Application.Commands.Veiculo.Alterar;
+using Rd.Veiculos.Api.Core.Entities;
+using Rd.Veiculos.Tests.Unit.Mocks;
+using System.ComponentModel.DataAnnotations;
+
+namespace Rd.Veiculos.Tests.Unit.Application.Commands
+{
+    public class AlterarVeiculoCommandHandlerTest
+    {
+        private readonly CancellationToken _cancellationToken;
+
+        public AlterarVeiculoCommandHandlerTest()
+        {
+            _cancellationToken = CancellationToken.None;
+        }
+
+        [Fact]
+        public async void AlterarVeiculoCommandHandler_ComDadosValidos_DeveAtualizarNaBase()
+        {
+            /// Arrange
+            var command = new AlterarVeiculoCommand()
+            {
+                Id = Guid.NewGuid(),
+                Marca = "Fiat",
+                Modelo = "Uno",
+                AnoFabricacao = 2020,
+                AnoModelo = 2021,
+                QuantidadeLugares = 3,
+                Categoria = "Passeio"
+            };
+            var _veiculoRepository = new VeiculoRepositoryMock().ObterPorIdComResultado();
+
+            /// Act
+            var _handler = new AlterarVeiculoCommandHandler(_veiculoRepository.Object);
+            var result = await _handler.Handle(command, _cancellationToken);
+
+            /// Assert
+            _veiculoRepository.Verify(v => v.Alterar(It.IsAny<VeiculoEntity>(), _cancellationToken), Times.Once);
+            Assert.True(result);
+        }
+
+        [Fact]
+        public async Task AlterarVeiculoCommandHandler_ComDadoInvalidos_DeveRetornarExcessao()
+        {
+            try
+            {
+                /// Arrange
+                var command = new AlterarVeiculoCommand()
+                {
+                    Id = Guid.NewGuid(),
+                    Marca = "Fiat",
+                    Modelo = "Uno",
+                    AnoFabricacao = 2020,
+                    AnoModelo = 2021,
+                    QuantidadeLugares = 3,
+                    Categoria = "Passeio"
+                };
+                var _veiculoRepository = new VeiculoRepositoryMock().ObterPorIdSemResultado();
+                var _handler = new AlterarVeiculoCommandHandler(_veiculoRepository.Object);
+
+                /// Act
+                await _handler.Handle(command, _cancellationToken);
+
+            }
+            catch (ValidationException ex)
+            {
+                /// Assert
+                Assert.Equal("Veículo não encontrado", ex.Message);
+            }
+        }
+    }
+}

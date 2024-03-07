@@ -14,50 +14,52 @@ namespace Rd.Veiculos.Api.Controllers.v1
     public class VeiculoController : ControllerBase
     {
         private readonly ILogger<VeiculoController> _logger;
+        private readonly IMediator _mediator;
 
-        public VeiculoController(ILogger<VeiculoController> logger)
+        public VeiculoController(ILogger<VeiculoController> logger, IMediator mediator)
         {
             _logger = logger;
+            _mediator = mediator;
         }
 
         [HttpPost]
         [ProducesResponseType((int)HttpStatusCode.Created)]
-        public async Task<ActionResult<VeiculoEntity>> Adicionar(
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> Adicionar(
             [FromBody] AdicionarVeiculoCommand command,
-            [FromServices] IMediator mediator,
             CancellationToken cancellationToken
         )
         {
             _logger.LogInformation($"Adicionando veículo - {command.Marca} {command.Modelo}");
-            var veiculo = await mediator.Send(command, cancellationToken);
+            var veiculo = await _mediator.Send(command, cancellationToken);
             _logger.LogInformation($"Veículo adicionado - {command.Marca} {command.Modelo} - ID: {veiculo.Id}");
             return Created("Id", new { veiculo.Id });
         }
 
         [HttpPut]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<VeiculoEntity>> Alterar(
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> Alterar(
             [FromBody] AlterarVeiculoCommand command,
-            [FromServices] IMediator mediator,
             CancellationToken cancellationToken
         )
         {
             _logger.LogInformation($"Alterando veículo - {command.Marca} {command.Modelo}");
-            var result = await mediator.Send(command, cancellationToken);
+            var result = await _mediator.Send(command, cancellationToken);
             _logger.LogInformation($"Veículo alterado - {command.Marca} {command.Modelo} - Sucess: {result}");
             return Ok();
         }
 
         [HttpDelete]
         [ProducesResponseType((int)HttpStatusCode.OK)]
-        public async Task<ActionResult<VeiculoEntity>> Excluir(
+        [ProducesResponseType((int)HttpStatusCode.BadRequest)]
+        public async Task<ActionResult> Excluir(
             [FromBody] ExcluirVeiculoCommand command,
-            [FromServices] IMediator mediator,
             CancellationToken cancellationToken
         )
         {
             _logger.LogInformation($"Excluindo veículo - {command.Id}");
-            var result = await mediator.Send(command, cancellationToken);
+            var result = await _mediator.Send(command, cancellationToken);
             _logger.LogInformation($"Veículo excluido - {command.Id} - Sucess: {result}");
             return Ok();
         }
