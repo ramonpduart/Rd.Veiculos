@@ -3,6 +3,7 @@ using Rd.Veiculos.Tests.Integration.Services;
 
 namespace Rd.Veiculos.Tests.Integration.Scenarios
 {
+    [TestFixture]
     public class BaseScenario
     {
         internal readonly VeiculoService _veiculoService;
